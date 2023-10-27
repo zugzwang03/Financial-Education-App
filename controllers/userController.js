@@ -17,6 +17,7 @@ const login = catchAsyncErrors(async (req, res, next) => {
             success: false,
             "error message": "user account already exists with same email"
         });
+        return;
     }
     user = await User.create({ name, email, password });
     sendCookie(user, 201, res);
