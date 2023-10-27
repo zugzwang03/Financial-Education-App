@@ -73,4 +73,21 @@ const describesBest = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest };
+const ageGroup = catchAsyncErrors(async (req, res, next) => {
+    // email, ageGroup
+    var { email, ageGroup } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { ageGroup }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup };

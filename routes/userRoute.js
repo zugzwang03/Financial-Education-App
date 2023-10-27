@@ -6,5 +6,6 @@ router.route('/login/user').post(userController.login);
 router.route('/addUsername/user').post(isAuthenticated, userController.addUsername);
 router.route('/levelOfKnowledge/user').post(isAuthenticated, userController.levelOfKnowledge);
 router.route('/describesBest/user').post(isAuthenticated, userController.describesBest);
+router.route('/ageGroup/user').post(isAuthenticated, userController.ageGroup);
 
 module.exports = router;

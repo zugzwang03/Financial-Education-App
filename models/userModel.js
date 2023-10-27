@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema({
     },
     describesBest: {
         type: String
+    },
+    ageGroup: {
+        type: String
     }
 });
 
