@@ -22,6 +22,21 @@ const login = catchAsyncErrors(async (req, res, next) => {
     sendCookie(user, 201, res);
 });
 
+const addUsername = catchAsyncErrors(async (req, res, next) => {
+    // email, username
+    var { email, username } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { username }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
 
-
-module.exports = { login };
+module.exports = { login, addUsername };

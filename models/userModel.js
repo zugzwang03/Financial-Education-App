@@ -14,10 +14,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+    },
+    username: {
+        type: String
     }
 });
-
-
 
 userSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
