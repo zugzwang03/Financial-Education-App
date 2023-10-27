@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     },
     ageGroup: {
         type: String
+    },
+    primaryFinancialGoal: {
+        type: String
     }
 });
 

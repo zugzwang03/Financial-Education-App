@@ -90,4 +90,21 @@ const ageGroup = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup };
+const primaryFinancialGoal = catchAsyncErrors(async (req, res, next) => {
+    // email, primaryFinancialGoal
+    var { email, primaryFinancialGoal } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { primaryFinancialGoal }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+})
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal };
