@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
     var { name, email, password } = req.body;
+    const resetToken = crypto.randomBytes(20).toString('hex');
     password = crypto
         .createHash('sha256')
         .update(resetToken)
