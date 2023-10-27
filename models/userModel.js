@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
     },
     levelOfKnowledge: {
         type: String
+    },
+    describesBest: {
+        type: String
     }
 });
 

@@ -56,4 +56,21 @@ const levelOfKnowledge = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge };
+const describesBest = catchAsyncErrors(async (req, res, next) => {
+    // email, describesBest
+    var { email, describesBest } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { describesBest }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest };
