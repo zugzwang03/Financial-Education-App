@@ -1,4 +1,5 @@
 const User = require("../models/userModel.js");
+const Admin = require("../models/adminModel.js");
 const catchAsyncErrors = require("./catchAsyncErrors.js");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -14,7 +15,10 @@ const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
         });
     }
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decodedData.id);
+    if(req.params.person == 'user')
+        req.user = await User.findById(decodedData.id);
+    else    
+        req.user = await Admin.findById(decodedData.id);
     next();
 });
 
