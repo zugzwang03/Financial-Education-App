@@ -65,7 +65,15 @@ const userSchema = new mongoose.Schema({
                 type: Date
             }
         }]
-    }
+    },
+    dropDownNotification: [{
+        notification: {
+            type: String
+        },
+        date: {
+            type: Date
+        }
+    }]
 });
 
 userSchema.methods.getJWTToken = function () {

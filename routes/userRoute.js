@@ -17,5 +17,6 @@ router.route('/addGrades/user').post(isAuthenticated, userController.addGrades);
 router.route('/statistics/user').get(isAuthenticated, userController.statistics);
 router.route('/addToDo/user').post(isAuthenticated, userController.addToDo);
 router.route('/addAlreadyDone/user').post(isAuthenticated, userController.addAlreadyDone);
+router.route('/addDropDownNotification/user').post(isAuthenticated, userController.addNotification);
 
 module.exports = router;
