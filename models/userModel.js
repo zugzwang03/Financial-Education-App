@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
     },
     primaryFinancialGoal: {
         type: String
+    },
+    incomeGoal: {
+        type: String
     }
 });
 

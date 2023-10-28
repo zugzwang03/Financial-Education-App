@@ -8,5 +8,6 @@ router.route('/levelOfKnowledge/user').post(isAuthenticated, userController.leve
 router.route('/describesBest/user').post(isAuthenticated, userController.describesBest);
 router.route('/ageGroup/user').post(isAuthenticated, userController.ageGroup);
 router.route('/primaryFinancialGoal/user').post(isAuthenticated, userController.primaryFinancialGoal);
+router.route('/incomeGoal/user').post(isAuthenticated, userController.incomeGoal);
 
 module.exports = router;
