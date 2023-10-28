@@ -9,5 +9,6 @@ router.route('/describesBest/user').post(isAuthenticated, userController.describ
 router.route('/ageGroup/user').post(isAuthenticated, userController.ageGroup);
 router.route('/primaryFinancialGoal/user').post(isAuthenticated, userController.primaryFinancialGoal);
 router.route('/incomeGoal/user').post(isAuthenticated, userController.incomeGoal);
+router.route('/currentGoal/user').post(isAuthenticated, userController.currentGoal);
 
 module.exports = router;

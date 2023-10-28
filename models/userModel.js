@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema({
     },
     incomeGoal: {
         type: String
+    },
+    currentGoal: {
+        type: String
     }
 });
 

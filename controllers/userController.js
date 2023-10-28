@@ -109,19 +109,36 @@ const primaryFinancialGoal = catchAsyncErrors(async (req, res, next) => {
 
 const incomeGoal = catchAsyncErrors(async (req, res, next) => {
     // email, incomeGoal
-    var {email, incomeGoal} = req.body;
-    var user = await User.findOne({email});
-    if(!user) {
+    var { email, incomeGoal } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
         return res.status(401).json({
             success: false,
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findByIdAndUpdate(user._id, {incomeGoal}, {new: true});
+    user = await User.findByIdAndUpdate(user._id, { incomeGoal }, { new: true });
     res.status(200).json({
         success: true,
         user
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal };
+const currentGoal = catchAsyncErrors(async (req, res, next) => {
+    // email, currentGoal
+    var { email, currentGoal } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { currentGoal }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal };
