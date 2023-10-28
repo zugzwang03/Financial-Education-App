@@ -35,6 +35,18 @@ const userSchema = new mongoose.Schema({
     },
     currentGoal: {
         type: String
+    },
+    attendance: {
+        type: String
+    },
+    tasksExams: {
+        type: String
+    },
+    quiz: {
+        type: String
+    },
+    grades: {
+        type: String
     }
 });
 

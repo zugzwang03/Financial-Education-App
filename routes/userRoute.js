@@ -10,5 +10,9 @@ router.route('/ageGroup/user').post(isAuthenticated, userController.ageGroup);
 router.route('/primaryFinancialGoal/user').post(isAuthenticated, userController.primaryFinancialGoal);
 router.route('/incomeGoal/user').post(isAuthenticated, userController.incomeGoal);
 router.route('/currentGoal/user').post(isAuthenticated, userController.currentGoal);
+router.route('/addAttendance/user').post(isAuthenticated, userController.addAttendance);
+router.route('/addTasksAndExams/user').post(isAuthenticated, userController.addTasksAndExams);
+router.route('/addQuiz/user').post(isAuthenticated, userController.addQuiz);
+router.route('/addGrades/user').post(isAuthenticated, userController.addGrades);
 
 module.exports = router;

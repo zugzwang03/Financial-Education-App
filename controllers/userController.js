@@ -141,4 +141,72 @@ const currentGoal = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal };
+const addAttendance = catchAsyncErrors(async (req, res, next) => {
+    // email, attendance
+    var { email, attendance } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { attendance }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+const addTasksAndExams = catchAsyncErrors(async (req, res, next) => {
+    // email, tasksAndExams
+    var { email, tasksAndExams } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { tasksAndExams }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+const addQuiz = catchAsyncErrors(async (req, res, next) => {
+    // email, quiz
+    var { email, quiz } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { quiz }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+const addGrades = catchAsyncErrors(async (req, res, next) => {
+    // email, grades
+    var { email, grades } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { grades }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades };
