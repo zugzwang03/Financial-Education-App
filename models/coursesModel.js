@@ -2,10 +2,13 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 
 const coursesSchema = new mongoose.Schema({
+    key: {
+        type: String
+    },
     categories: [{
         type: String
     }]
 });
 
-const courses = new mongoose.model('Courses', coursesSchema);
-module.exports = courses;
+const Courses = mongoose.model('Courses', coursesSchema);
+module.exports = Courses;
