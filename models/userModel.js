@@ -77,12 +77,23 @@ const userSchema = new mongoose.Schema({
     downloads: [{
         name: {
             type: String
-        }, 
+        },
         format: {
             type: String
-        }, 
+        },
         size: {
             type: String
+        }
+    }],
+    taskProgress: [{
+        name: {
+            type: String
+        },
+        youDid: {
+            type: Number
+        },
+        totalToBeDone: {
+            type: Number
         }
     }]
 });
