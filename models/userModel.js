@@ -73,6 +73,17 @@ const userSchema = new mongoose.Schema({
         date: {
             type: Date
         }
+    }],
+    downloads: [{
+        name: {
+            type: String
+        }, 
+        format: {
+            type: String
+        }, 
+        size: {
+            type: String
+        }
     }]
 });
 
