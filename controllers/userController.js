@@ -227,8 +227,8 @@ const statistics = catchAsyncErrors(async (req, res, next) => {
 });
 
 const addToDo = catchAsyncErrors(async (req, res, next) => {
-    // email, toDo
-    var { email, toDo } = req.body;
+    // email, toDoUser
+    var { email, toDoUser } = req.body;
     var user = await User.findOne({ email });
     if (!user) {
         return res.status(401).json({
@@ -236,7 +236,7 @@ const addToDo = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findByIdAndUpdate(user._id, { toDoList: { $push: { toDo: toDo } } }, { new: true });
+    user = await User.findByIdAndUpdate(user._id, {  $push: { "toDoList.toDo": toDoUser } }, { new: true });
     res.status(200).json({
         success: true,
         user
