@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     attendance: {
         type: String
     },
-    tasksExams: {
+    tasksAndExams: {
         type: String
     },
     quiz: {
