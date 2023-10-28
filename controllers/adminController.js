@@ -40,4 +40,21 @@ const addCategories = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addCategories };
+const addCourse = catchAsyncErrors(async (req, res, next) => {
+    // email, category, name, price, stars
+    var {email, category, name, price, stars} = req.body;
+    var admin = await Admin.findOne({email});
+    if(!admin) {
+        return res.status(401).json({
+            success: false,
+            admin
+        });
+    }
+    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courses": {category, name, price, stars} } }, { new: true });
+    res.status(200).json({
+        success: true,
+        courses
+    });
+});
+
+module.exports = { login, addCategories, addCourse };

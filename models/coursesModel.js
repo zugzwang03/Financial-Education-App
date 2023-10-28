@@ -7,6 +7,20 @@ const coursesSchema = new mongoose.Schema({
     },
     categories: [{
         type: String
+    }],
+    courses: [{
+        category: {
+            type: String
+        },
+        name: {
+            type: String
+        },
+        price: {
+            type: Number
+        },
+        stars: {
+            type: Number
+        }
     }]
 });
 
