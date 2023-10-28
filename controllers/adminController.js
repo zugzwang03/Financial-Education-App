@@ -50,7 +50,7 @@ const addCourse = catchAsyncErrors(async (req, res, next) => {
             admin
         });
     }
-    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courses": {category, name, price, stars} } }, { new: true });
+    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courses": {category, name, price, stars, noOfStudentsEnrolled: 0} } }, { new: true });
     res.status(200).json({
         success: true,
         courses

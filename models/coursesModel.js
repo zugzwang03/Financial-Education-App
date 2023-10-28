@@ -20,7 +20,81 @@ const coursesSchema = new mongoose.Schema({
         },
         stars: {
             type: Number
+        },
+        noOfStudentsEnrolled: {
+            type: Number
         }
+    }],
+    courseDetails: [{
+        name: {
+            type: String
+        },
+        category: {
+            type: String
+        },
+        price: {
+            type: Number
+        },
+        stars: {
+            type: Number
+        },
+        noOfClasses: {
+            type: Number
+        },
+        noOfHours: {
+            type: Number
+        },
+        about: {
+            type: String
+        },
+        instrutor: {
+            type: String
+        },
+        noOfLessons: {
+            type: Number
+        },
+        level: {
+            type: String
+        },
+        isAudioBook: {
+            type: Boolean
+        },
+        isLifetimeAccess: {
+            type: Boolean
+        },
+        noOfQuizzes: {
+            type: Number
+        },
+        isCompletionCertificate: {
+            type: Boolean
+        },
+        reviews: [{
+            user_id: {
+                type: mongoose.Types.ObjectId,
+                ref: 'User'
+            },
+            comment: {
+                type: String
+            },
+            stars: {
+                type: Number
+            },
+            date: {
+                type: Date
+            },
+            noOfLikes: {
+                type: Number
+            }
+        }],
+        usersEnrolled: [{
+            user_id: {
+                type: mongoose.Types.ObjectId,
+                ref: 'User'
+            },
+            name: {
+                type: String
+            }
+        }]
     }]
 });
 
