@@ -211,7 +211,7 @@ const addGrades = catchAsyncErrors(async (req, res, next) => {
 
 const statistics = catchAsyncErrors(async (req, res, next) => {
     var user = req.user;
-    if(!user) {
+    if (!user) {
         return res.status(401).json({
             success: false,
             "error message": "user not logged in yet"
@@ -224,6 +224,24 @@ const statistics = catchAsyncErrors(async (req, res, next) => {
         "quiz": user.quiz,
         "attendance": user.attendance
     });
-})
+});
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics };
+const addToDo = catchAsyncErrors(async (req, res, next) => {
+    // email, toDo
+    var { email, toDo } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { toDoList: { $push: { toDo: toDo } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo };

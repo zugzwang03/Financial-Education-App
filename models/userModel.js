@@ -47,6 +47,14 @@ const userSchema = new mongoose.Schema({
     },
     grades: {
         type: String
+    },
+    toDoList: {
+        toDo: [{
+            type: String
+        }],
+        alreadyDone: [{
+            type: String
+        }]
     }
 });
 
