@@ -209,4 +209,21 @@ const addGrades = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades };
+const statistics = catchAsyncErrors(async (req, res, next) => {
+    var user = req.user;
+    if(!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    res.status(200).json({
+        success: true,
+        "grades": user.grades,
+        "tasksAndExams": user.tasksAndExams,
+        "quiz": user.quiz,
+        "attendance": user.attendance
+    });
+})
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics };

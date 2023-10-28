@@ -14,5 +14,6 @@ router.route('/addAttendance/user').post(isAuthenticated, userController.addAtte
 router.route('/addTasksAndExams/user').post(isAuthenticated, userController.addTasksAndExams);
 router.route('/addQuiz/user').post(isAuthenticated, userController.addQuiz);
 router.route('/addGrades/user').post(isAuthenticated, userController.addGrades);
+router.route('/statistics/user').get(isAuthenticated, userController.statistics);
 
 module.exports = router;
