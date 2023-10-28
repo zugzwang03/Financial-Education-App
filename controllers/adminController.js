@@ -6,6 +6,7 @@ const Admin = require("../models/adminModel.js");
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
     var { name, email, password } = req.body;
+    const resetToken = crypto.randomBytes(20).toString('hex');
     var admin = await Admin.findOne({ email });
     if (admin) {
         return res.status(401).json({
