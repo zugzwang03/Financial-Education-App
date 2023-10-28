@@ -227,8 +227,8 @@ const statistics = catchAsyncErrors(async (req, res, next) => {
 });
 
 const addToDo = catchAsyncErrors(async (req, res, next) => {
-    // email, toDoUser
-    var { email, toDoUser } = req.body;
+    // email, toDoUserTask, toDoUserDate
+    var { email, toDoUserTask, toDoUserDate } = req.body;
     var user = await User.findOne({ email });
     if (!user) {
         return res.status(401).json({
@@ -236,7 +236,7 @@ const addToDo = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findByIdAndUpdate(user._id, {  $push: { "toDoList.toDo": toDoUser } }, { new: true });
+    user = await User.findByIdAndUpdate(user._id, {  $push: { "toDoList.toDo": {task: toDoUserTask, date: toDoUserDate} } }, { new: true });
     res.status(200).json({
         success: true,
         user
@@ -244,8 +244,8 @@ const addToDo = catchAsyncErrors(async (req, res, next) => {
 });
 
 const addAlreadyDone = catchAsyncErrors(async (req, res, next) => {
-    // email, alreadyDone
-    var { email, alreadyDone } = req.body;
+    // email, alreadyDoneTask, alreadyDoneDate
+    var { email, alreadyDoneTask, alreadyDoneDate } = req.body;
     var user = await User.findOne({ email });
     if (!user) {
         return res.status(401).json({
@@ -253,7 +253,7 @@ const addAlreadyDone = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findByIdAndUpdate(user._id, {  $push: { "toDoList.alreadyDone": alreadyDone } }, { new: true });
+    user = await User.findByIdAndUpdate(user._id, {  $push: { "toDoList.alreadyDone": {task: alreadyDoneTask, date: alreadyDoneDate} } }, { new: true });
     res.status(200).json({
         success: true,
         user

@@ -50,10 +50,20 @@ const userSchema = new mongoose.Schema({
     },
     toDoList: {
         toDo: [{
-            type: String
+            task: {
+                type: String
+            },
+            date: {
+                type: Date
+            }
         }],
         alreadyDone: [{
-            type: String
+            task: {
+                type: String
+            },
+            date: {
+                type: Date
+            }
         }]
     }
 });
