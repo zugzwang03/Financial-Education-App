@@ -305,7 +305,7 @@ const addReview = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var courses = await Courses.findOneAndUpdate({ "courseDetails._id": course_id }, { $push: { "courseDetails.reviews": { comment, stars, date, noOfLikes: 0, user_id: user._id } } }, { new: true });
+    var courses = await Courses.findOneAndUpdate({ "courseDetails._id": course_id }, { $push: { "courseDetails.$.reviews": { comment, stars, date, noOfLikes: 0, user_id: user._id } } }, { new: true });
     res.status(200).json({
         success: true,
         courses
