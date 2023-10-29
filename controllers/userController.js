@@ -305,10 +305,29 @@ const addReview = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var courses = await Courses.findOneAndUpdate({ "courseDetails._id": course_id }, { $push: { "courseDetails.$.reviews": { comment, stars, date, noOfLikes: 0, user_id: user._id } } }, { new: true });
+    var course = await Courses.findOne({ "courseDetails.course_id": course_id });
+    if (!course) {
+        return res.status(500).json({
+            success: false,
+            "error message": "course id does not exist"
+        });
+    }
+    var noOfStars = 0;
+    if (course.courseDetails) {
+        for (var courseDetails of course.courseDetails) {
+            let id = courseDetails.course_id;
+            id = id.toString();
+            if (id == course_id) {
+                noOfStars = (Number(courseDetails.stars) + Number(stars)) / 2;
+            }
+        }
+    }
+    course = await Courses.findOneAndUpdate({ "courseDetails.course_id": course_id }, { $push: { "courseDetails.$.reviews": { comment, stars, date, noOfLikes: 0, user_id: user._id } } }, { new: true });
+    course = await Courses.findOneAndUpdate({ "courseDetails.course_id": course_id }, { "courseDetails.$.stars": noOfStars }, { new: true });
+    course = await Courses.findOneAndUpdate({ "courses.course_id": course_id }, { "courses.$.stars": noOfStars }, { new: true });
     res.status(200).json({
         success: true,
-        courses
+        course
     });
 });
 

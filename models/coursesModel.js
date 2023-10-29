@@ -23,9 +23,15 @@ const coursesSchema = new mongoose.Schema({
         },
         noOfStudentsEnrolled: {
             type: Number
+        },
+        course_id: {
+            type: Number
         }
     }],
     courseDetails: [{
+        course_id: {
+            type: Number
+        },
         name: {
             type: String
         },
