@@ -15,10 +15,11 @@ const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
         });
     }
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-    if(req.params.person == 'user')
+    if(req.query.person == 'user')
         req.user = await User.findById(decodedData.id);
     else    
         req.user = await Admin.findById(decodedData.id);
+    console.log(req.user);
     next();
 });
 
