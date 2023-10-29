@@ -42,15 +42,15 @@ const addCategories = catchAsyncErrors(async (req, res, next) => {
 
 const addCourse = catchAsyncErrors(async (req, res, next) => {
     // email, category, name, price
-    var {email, category, name, price} = req.body;
-    var admin = await Admin.findOne({email});
-    if(!admin) {
+    var { email, category, name, price } = req.body;
+    var admin = await Admin.findOne({ email });
+    if (!admin) {
         return res.status(401).json({
             success: false,
             admin
         });
     }
-    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courses": {category, name, price, stars: 0, noOfStudentsEnrolled: 0} } }, { new: true });
+    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courses": { category, name, price, stars: 0, noOfStudentsEnrolled: 0 } } }, { new: true });
     res.status(200).json({
         success: true,
         courses
@@ -59,15 +59,15 @@ const addCourse = catchAsyncErrors(async (req, res, next) => {
 
 const addCourseDetails = catchAsyncErrors(async (req, res, next) => {
     // email, name, category, price, noOfClasses, noOfHours, about, instructor, noOfLessons, level, isAudioBook, isLifetimeAccess, noOfQuizzes, isCompletionCertificate
-    var {email, name, category, price, noOfClasses, noOfHours, about, instructor, noOfLessons, level, isAudioBook, isLifetimeAccess, noOfQuizzes, isCompletionCertificate} = req.body;
-    var admin = await Admin.findOne({email});
-    if(!admin) {
+    var { email, name, category, price, noOfClasses, noOfHours, about, instructor, noOfLessons, level, isAudioBook, isLifetimeAccess, noOfQuizzes, isCompletionCertificate } = req.body;
+    var admin = await Admin.findOne({ email });
+    if (!admin) {
         return res.status(401).json({
             success: false,
             admin
         });
     }
-    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courseDetails": {name, category, price, stars: 0, noOfClasses, noOfHours, about, instructor, noOfLessons, level, isAudioBook, isLifetimeAccess, noOfQuizzes, isCompletionCertificate} } }, { new: true });
+    var courses = await Courses.findOneAndUpdate({ "key": "1" }, { $push: { "courseDetails": { name, category, price, stars: 0, noOfClasses, noOfHours, about, instructor, noOfLessons, level, isAudioBook, isLifetimeAccess, noOfQuizzes, isCompletionCertificate } } }, { new: true });
     res.status(200).json({
         success: true,
         courses
