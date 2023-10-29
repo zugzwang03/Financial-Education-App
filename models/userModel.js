@@ -95,6 +95,11 @@ const userSchema = new mongoose.Schema({
         totalToBeDone: {
             type: Number
         }
+    }],
+    coursesEnrolled: [{
+        course_id: {
+            type: Number
+        }
     }]
 });
 

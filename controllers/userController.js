@@ -331,4 +331,23 @@ const addReview = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview };
+const enrollCourse = catchAsyncErrors(async (req, res, next) => {
+    // email, course_id
+    var { email, course_id } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findByIdAndUpdate(user._id, { $push: { "coursesEnrolled.course_id": course_id } }, { new: true });
+    var course = await Courses.findOneAndUpdate({ "key": "1", "courseDetails.course_id": course_id }, { $push: { "courseDetails.$.usersEnrolled": { user_id: user._id, name: user.name } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        user,
+        course
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse };
