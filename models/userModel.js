@@ -98,7 +98,7 @@ const userSchema = new mongoose.Schema({
     }],
     coursesEnrolled: [{
         course_id: {
-            type: Number
+        type: Number
         }
     }]
 });
