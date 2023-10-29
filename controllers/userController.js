@@ -341,7 +341,7 @@ const enrollCourse = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findByIdAndUpdate(user._id, { $push: { "coursesEnrolled.course_id": course_id } }, { new: true });
+    user = await User.findByIdAndUpdate(user._id, { $push: { "coursesEnrolled": course_id } }, { new: true });
     var course = await Courses.findOneAndUpdate({ "key": "1", "courseDetails.course_id": course_id }, { $push: { "courseDetails.$.usersEnrolled": { user_id: user._id, name: user.name } } }, { new: true });
     res.status(200).json({
         success: true,
