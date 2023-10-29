@@ -47,7 +47,7 @@ const coursesSchema = new mongoose.Schema({
         about: {
             type: String
         },
-        instrutor: {
+        instructor: {
             type: String
         },
         noOfLessons: {
