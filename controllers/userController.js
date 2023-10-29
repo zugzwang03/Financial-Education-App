@@ -1,5 +1,6 @@
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const User = require("../models/userModel");
+const Courses = require("../models/coursesModel.js");
 const sendCookie = require("../utils/sendCookie.js");
 const crypto = require("crypto");
 
@@ -294,4 +295,21 @@ const addDownload = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload };
+const addReview = catchAsyncErrors(async (req, res, next) => {
+    // email, course_id, comment, stars, date
+    var { email, course_id, comment, stars, date } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    var courses = await Courses.findOneAndUpdate({ "courseDetails._id": course_id }, { $push: { "courseDetails.reviews": { comment, stars, date, noOfLikes: 0, user_id: user._id } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        courses
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview };
