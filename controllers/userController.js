@@ -390,4 +390,27 @@ const getCoursesOfSpecificCategory = catchAsyncErrors(async (req, res, next) => 
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory };
+const getCourseDetails = catchAsyncErrors(async (req, res, next) => {
+    // course_id
+    var user = req.user;
+    var course_id = req.query.course_id;
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    var course = await Courses.findOne({"key": "1"});
+    var courseDetails = [];
+    for(var courses of course.courses) {
+        if(courses.course_id == course_id) {
+            courseDetails.push(courses);
+        }
+    }
+    res.status(200).json({
+        success: true,
+        courseDetails
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails };

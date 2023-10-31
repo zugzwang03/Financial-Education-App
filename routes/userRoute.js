@@ -23,5 +23,6 @@ router.route('/addReview/user').post(isAuthenticated, userController.addReview);
 router.route('/enrollCourse/user').post(isAuthenticated, userController.enrollCourse);
 router.route('/getCategories/user').get(isAuthenticated, userController.getCategories);
 router.route('/getCoursesOfSpecificCategory/user').get(isAuthenticated, userController.getCoursesOfSpecificCategory);
+router.route('/getCourseDetails').get(isAuthenticated, userController.getCourseDetails);
 
 module.exports = router;
