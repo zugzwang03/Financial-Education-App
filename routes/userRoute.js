@@ -21,5 +21,6 @@ router.route('/addDropDownNotification/user').post(isAuthenticated, userControll
 router.route('/addDownloads/user').post(isAuthenticated, userController.addDownload);
 router.route('/addReview/user').post(isAuthenticated, userController.addReview);
 router.route('/enrollCourse/user').post(isAuthenticated, userController.enrollCourse);
+router.route('/getCategories/user').get(isAuthenticated, userController.getCategories);
 
 module.exports = router;
