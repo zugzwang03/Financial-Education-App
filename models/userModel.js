@@ -100,6 +100,11 @@ const userSchema = new mongoose.Schema({
         course_id: {
         type: Number
         }
+    }],
+    classesEnrolled: [{
+        class_id: {
+            type: String
+        }
     }]
 });
 

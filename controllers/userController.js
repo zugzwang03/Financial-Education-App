@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Courses = require("../models/coursesModel.js");
 const sendCookie = require("../utils/sendCookie.js");
 const crypto = require("crypto");
+const Classes = require("../models/classesModel");
 
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
@@ -464,10 +465,29 @@ const addTaskProgress = catchAsyncErrors(async (req, res, next) => {
     else {
         nuser = await User.findOneAndUpdate({ _id: user._id, "taskProgress.course_id": course_id }, { "taskProgress.$.course_id": course_id, "taskProgress.$.youDid": youDid, "taskProgress.$.totalToBeDone": totalToBeDone }, { new: true });
     }
-res.status(200).json({
-    success: true,
-    nuser
-});
+    res.status(200).json({
+        success: true,
+        nuser
+    });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress };
+const enrollClass = catchAsyncErrors(async (req, res, next) => {
+    // email, class_id
+    var { email, class_id } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findOneAndUpdate({ _id: user._id }, { $push: { "classesEnrolled": { class_id } } }, { new: true });
+    var classes = await Classes.findOneAndUpdate({ "key": "1", "classes._id": class_id }, { $push: { "classes.$.studentsEnrolled": { user_id: user._id, name: user.name } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        user,
+        classes
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress, enrollClass };
