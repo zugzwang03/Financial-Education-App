@@ -341,7 +341,7 @@ const enrollCourse = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    user = await User.findOneAndUpdate({_id: user._id}, { $push: { "coursesEnrolled": {course_id} } }, { new: true });
+    user = await User.findOneAndUpdate({ _id: user._id }, { $push: { "coursesEnrolled": { course_id } } }, { new: true });
     var course = await Courses.findOneAndUpdate({ "key": "1", "courseDetails.course_id": course_id }, { $push: { "courseDetails.$.usersEnrolled": { user_id: user._id, name: user.name } } }, { new: true });
     res.status(200).json({
         success: true,
@@ -359,7 +359,7 @@ const getCategories = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var course = await Courses.findOne({"key": "1"});
+    var course = await Courses.findOne({ "key": "1" });
     res.status(200).json({
         success: true,
         user,
@@ -377,10 +377,10 @@ const getCoursesOfSpecificCategory = catchAsyncErrors(async (req, res, next) => 
             "error message": "user not logged in yet"
         });
     }
-    var course = await Courses.findOne({"key": "1"});
+    var course = await Courses.findOne({ "key": "1" });
     var categorySpecificCourses = [];
-    for(var courses of course.courses) {
-        if(courses.category == category) {
+    for (var courses of course.courses) {
+        if (courses.category == category) {
             categorySpecificCourses.push(courses);
         }
     }
@@ -400,10 +400,10 @@ const getCourseDetails = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var course = await Courses.findOne({"key": "1"});
+    var course = await Courses.findOne({ "key": "1" });
     var courseDetails = [];
-    for(var courses of course.courseDetails) {
-        if(courses.course_id == course_id) {
+    for (var courses of course.courseDetails) {
+        if (courses.course_id == course_id) {
             courseDetails.push(courses);
         }
     }
@@ -423,15 +423,15 @@ const addLikeToReview = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var course = await Courses.findOne({"key": "1"});
+    var course = await Courses.findOne({ "key": "1" });
     var newNoOfLikes = 0;
     var id = 0;
     var review_idx = 0;
-    for(var course of course.courseDetails) {
+    for (var course of course.courseDetails) {
         id = 0;
-        for(var review of course.reviews) {
-            
-            if(review._id == review_id) {
+        for (var review of course.reviews) {
+
+            if (review._id == review_id) {
                 newNoOfLikes = review.noOfLikes + 1;
                 review_idx = id;
                 console.log(newNoOfLikes);
@@ -440,7 +440,7 @@ const addLikeToReview = catchAsyncErrors(async (req, res, next) => {
             id++;
         }
     }
-    var course = await Courses.findOneAndUpdate({"key": "1", "courseDetails.course_id": course_id}, {$set: {[`courseDetails.$.reviews.${review_idx}.noOfLikes`]: newNoOfLikes}}, {new: true});
+    var course = await Courses.findOneAndUpdate({ "key": "1", "courseDetails.course_id": course_id }, { $set: { [`courseDetails.$.reviews.${review_idx}.noOfLikes`]: newNoOfLikes } }, { new: true });
     res.status(200).json({
         success: true,
         course
@@ -449,25 +449,25 @@ const addLikeToReview = catchAsyncErrors(async (req, res, next) => {
 
 const addTaskProgress = catchAsyncErrors(async (req, res, next) => {
     // email, course_id, youDid, totalToBeDone
-    var {email, course_id, youDid, totalToBeDone} = req.body;
-    var user = await User.findOne({email});
+    var { email, course_id, youDid, totalToBeDone } = req.body;
+    var user = await User.findOne({ email });
     if (!user) {
         return res.status(401).json({
             success: false,
             "error message": "user not logged in yet"
         });
     }
-    var nuser = await User.findOne({_id: user._id, "taskProgress.course_id": course_id});
-    if(!nuser) {
-        nuser = await User.findByIdAndUpdate(user._id, {$push: {"taskProgress": {course_id, youDid, totalToBeDone}}}, {new: true});
+    var nuser = await User.findOne({ _id: user._id, "taskProgress.course_id": course_id });
+    if (!nuser) {
+        nuser = await User.findByIdAndUpdate(user._id, { $push: { "taskProgress": { course_id, youDid, totalToBeDone } } }, { new: true });
     }
     else {
-        nuser = await User.findOneAndUpdate({_id: user._id, "taskProgress.course_id": course_id}, {"taskProgress.$": {course_id, youDid, totalToBeDone}}, {new: true});
+        nuser = await User.findOneAndUpdate({ _id: user._id, "taskProgress.course_id": course_id }, { "taskProgress.$.course_id": course_id, "taskProgress.$.youDid": youDid, "taskProgress.$.totalToBeDone": totalToBeDone }, { new: true });
     }
-    res.status(200).json({
-        success: true,
-        nuser
-    });
+res.status(200).json({
+    success: true,
+    nuser
+});
 });
 
 module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress };
