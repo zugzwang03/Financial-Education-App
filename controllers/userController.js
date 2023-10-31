@@ -404,7 +404,7 @@ const getCourseDetails = catchAsyncErrors(async (req, res, next) => {
     var courseDetails = [];
     for(var courses of course.courseDetails) {
         if(courses.course_id == course_id) {
-            courseDetails.push(courses.courseDetails);
+            courseDetails.push(courses);
         }
     }
     res.status(200).json({
