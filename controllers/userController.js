@@ -457,13 +457,12 @@ const addTaskProgress = catchAsyncErrors(async (req, res, next) => {
             "error message": "user not logged in yet"
         });
     }
-    var nuser = await User.findOne({id: user._id, "taskProgress.course_id": course_id});
-    console.log(nuser);
+    var nuser = await User.findOne({_id: user._id, "taskProgress.course_id": course_id});
     if(!nuser) {
         nuser = await User.findByIdAndUpdate(user._id, {$push: {"taskProgress": {course_id, youDid, totalToBeDone}}}, {new: true});
     }
     else {
-        nuser = await User.findOneAndUpdate({id: user_id, "taskProgress.course_id": course_id}, {"taskProgress.$": {course_id, youDid, totalToBeDone}}, {new: true});
+        nuser = await User.findOneAndUpdate({_id: user._id, "taskProgress.course_id": course_id}, {"taskProgress.$": {course_id, youDid, totalToBeDone}}, {new: true});
     }
     res.status(200).json({
         success: true,
