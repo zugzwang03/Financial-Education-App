@@ -105,6 +105,11 @@ const userSchema = new mongoose.Schema({
         class_id: {
             type: String
         }
+    }],
+    projectsEnrolled: [{
+        project_id: {
+            type: String
+        }
     }]
 });
 

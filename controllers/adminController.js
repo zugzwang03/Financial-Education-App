@@ -4,6 +4,7 @@ const sendCookie = require("../utils/sendCookie.js");
 const Admin = require("../models/adminModel.js");
 const Courses = require("../models/coursesModel.js");
 const Classes = require("../models/classesModel.js");
+const Project = require("../models/projectModel.js");
 
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
@@ -94,12 +95,46 @@ const addClasses = catchAsyncErrors(async (req, res, next) => {
             admin
         });
     }
-    var classes = await Classes.findOneAndUpdate({ "key": "1" }, { $push: { classes: { email, name, date, instructor, platform, classLink } } }, { new: true });
+    var classes = await Classes.findOneAndUpdate({ "key": "1" }, { $push: { classes: { name, date, instructor, platform, classLink } } }, { new: true });
     res.status(200).json({
         success: true,
         classes
     });
 });
 
+const addProject = catchAsyncErrors(async (req, res, next) => {
+    // email, name, dueDate, description, projectProgress
+    var { email, name, dueDate, description, projectProgress } = req.body;
+    var admin = await Admin.findOne({ email });
+    if (!admin) {
+        return res.status(401).json({
+            success: false,
+            admin
+        });
+    }
+    var project = await Project.findOneAndUpdate({ "key": "1" }, { $push: { projects: { name, dueDate, description, projectProgress } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        project
+    });
+});
 
-module.exports = { login, addCategories, addCourse, addCourseDetails, addClasses };
+const addMentorToProject = catchAsyncErrors(async (req, res, next) => {
+    // email, project_id, mentor
+    var { email, project_id, mentor } = req.body;
+    var admin = await Admin.findOne({ email });
+    if (!admin) {
+        return res.status(401).json({
+            success: false,
+            admin
+        });
+    }
+    var project = await Project.findOneAndUpdate({ "key": "1", "projects._id": project_id }, { $push: { "projects.$.mentors": mentor } }, { new: true });
+    res.status(200).json({
+        success: true,
+        admin,
+        project
+    });
+});
+
+module.exports = { login, addCategories, addCourse, addCourseDetails, addClasses, addProject, addMentorToProject };

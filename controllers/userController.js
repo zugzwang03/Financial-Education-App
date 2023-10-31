@@ -4,6 +4,7 @@ const Courses = require("../models/coursesModel.js");
 const sendCookie = require("../utils/sendCookie.js");
 const crypto = require("crypto");
 const Classes = require("../models/classesModel");
+const Project = require("../models/projectModel.js");
 
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
@@ -490,4 +491,23 @@ const enrollClass = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress, enrollClass };
+const enrollProject = catchAsyncErrors(async (req, res, next) => {
+    // email, project_id
+    var { email, project_id } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    user = await User.findOneAndUpdate({ _id: user._id }, { $push: { "projectsEnrolled": { project_id } } }, { new: true });
+    var project = await Project.findOneAndUpdate({ "key": "1", "projects._id": project_id }, { $push: { "projects.$.members": { user_id: user._id, name: user.name } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        user,
+        project
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress, enrollClass, enrollProject };
