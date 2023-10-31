@@ -458,6 +458,7 @@ const addTaskProgress = catchAsyncErrors(async (req, res, next) => {
         });
     }
     var nuser = await User.findOne({id: user._id, "taskProgress.course_id": course_id});
+    console.log(nuser);
     if(!nuser) {
         nuser = await User.findByIdAndUpdate(user._id, {$push: {"taskProgress": {course_id, youDid, totalToBeDone}}}, {new: true});
     }
