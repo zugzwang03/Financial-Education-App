@@ -6,5 +6,6 @@ router.route('/login/admin').post(adminController.login);
 router.route('/addCategories/admin').post(isAuthenticated, adminController.addCategories);
 router.route('/addCourse/admin').post(isAuthenticated, adminController.addCourse);
 router.route('/addCourseDetails/admin').post(isAuthenticated, adminController.addCourseDetails);
+router.route('/addClasses/admin').post(isAuthenticated, adminController.addClasses);
 
 module.exports = router;

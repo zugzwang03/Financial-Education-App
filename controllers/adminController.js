@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const sendCookie = require("../utils/sendCookie.js");
 const Admin = require("../models/adminModel.js");
 const Courses = require("../models/coursesModel.js");
+const Classes = require("../models/classesModel.js");
 
 const login = catchAsyncErrors(async (req, res, next) => {
     // name, email, password
@@ -50,8 +51,8 @@ const addCourse = catchAsyncErrors(async (req, res, next) => {
             "error message": "admin email not logged in yet"
         });
     }
-    var courses = await Courses.findOne({"key": "1"});
-    if(!courses) {
+    var courses = await Courses.findOne({ "key": "1" });
+    if (!courses) {
         return res.status(500).json({
             success: false,
             "error message": "courses are not found"
@@ -83,4 +84,22 @@ const addCourseDetails = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addCategories, addCourse, addCourseDetails };
+const addClasses = catchAsyncErrors(async (req, res, next) => {
+    // email, name, date, instructor, platform, classLink
+    var { email, name, date, instructor, platform, classLink } = req.body;
+    var admin = await Admin.findOne({ email });
+    if (!admin) {
+        return res.status(401).json({
+            success: false,
+            admin
+        });
+    }
+    var classes = await Classes.findOneAndUpdate({ "key": "1" }, { $push: { classes: { email, name, date, instructor, platform, classLink } } }, { new: true });
+    res.status(200).json({
+        success: true,
+        classes
+    });
+});
+
+
+module.exports = { login, addCategories, addCourse, addCourseDetails, addClasses };
