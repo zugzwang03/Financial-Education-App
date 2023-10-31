@@ -447,4 +447,27 @@ const addLikeToReview = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview };
+const addTaskProgress = catchAsyncErrors(async (req, res, next) => {
+    // email, course_id, youDid, totalToBeDone
+    var {email, course_id, youDid, totalToBeDone} = req.body;
+    var user = await User.findOne({email});
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            "error message": "user not logged in yet"
+        });
+    }
+    var nuser = await User.findOne({id: user._id, "taskProgress.course_id": course_id});
+    if(!nuser) {
+        nuser = await User.findByIdAndUpdate(user._id, {$push: {"taskProgress": {course_id, youDid, totalToBeDone}}}, {new: true});
+    }
+    else {
+        nuser = await User.findOneAndUpdate({id: user_id, "taskProgress.course_id": course_id}, {"taskProgress.$": {course_id, youDid, totalToBeDone}}, {new: true});
+    }
+    res.status(200).json({
+        success: true,
+        nuser
+    });
+});
+
+module.exports = { login, addUsername, levelOfKnowledge, describesBest, ageGroup, primaryFinancialGoal, incomeGoal, currentGoal, addAttendance, addTasksAndExams, addQuiz, addGrades, statistics, addToDo, addAlreadyDone, addNotification, addDownload, addReview, enrollCourse, getCategories, getCoursesOfSpecificCategory, getCourseDetails, addLikeToReview, addTaskProgress };

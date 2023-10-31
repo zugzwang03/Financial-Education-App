@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema({
         }
     }],
     taskProgress: [{
-        name: {
+        course_id: {
             type: String
         },
         youDid: {

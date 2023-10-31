@@ -25,5 +25,6 @@ router.route('/getCategories/user').get(isAuthenticated, userController.getCateg
 router.route('/getCoursesOfSpecificCategory/user').get(isAuthenticated, userController.getCoursesOfSpecificCategory);
 router.route('/getCourseDetails/user').get(isAuthenticated, userController.getCourseDetails);
 router.route('/addLikeToReview/user').post(isAuthenticated, userController.addLikeToReview);
+router.route('/addTaskProgress/user').post(isAuthenticated, userController.addTaskProgress);
 
 module.exports = router;
