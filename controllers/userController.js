@@ -402,9 +402,9 @@ const getCourseDetails = catchAsyncErrors(async (req, res, next) => {
     }
     var course = await Courses.findOne({"key": "1"});
     var courseDetails = [];
-    for(var courses of course.courses) {
+    for(var courses of course.courseDetails) {
         if(courses.course_id == course_id) {
-            courseDetails.push(courses);
+            courseDetails.push(courses.courseDetails);
         }
     }
     res.status(200).json({
