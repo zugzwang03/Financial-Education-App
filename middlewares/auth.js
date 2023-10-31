@@ -19,7 +19,6 @@ const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
         req.user = await User.findById(decodedData.id);
     else    
         req.user = await Admin.findById(decodedData.id);
-    console.log(req.user);
     next();
 });
 
